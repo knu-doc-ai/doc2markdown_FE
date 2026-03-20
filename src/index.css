@@ -1,8 +1,9 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-/* Tailwind is not yet installed but we prepare for its basic directives */
+@theme {
+  --color-primary: #3b82f6; /* Example base design token */
+}
+
 body {
   margin: 0;
   padding: 0;
