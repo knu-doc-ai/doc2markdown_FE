@@ -113,7 +113,7 @@ const ConversionProgress = () => {
           onClick={() => navigate('/')}
           className="mt-6 text-sm text-gray-400 underline hover:text-gray-600"
         >
-          뒤로 돌아가기 (임시)
+          뒤로 돌아가기
         </button>
       )}
     </div>
