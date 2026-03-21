@@ -36,12 +36,12 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileSelect }) => {
       onDragOver={handleDragOver}
       onDrop={handleDrop}
     >
-      <p className="text-gray-700 mb-5 font-medium">여기에 PDF를 드래그 앤 드롭하거나</p>
+      <p className="text-gray-800 text-lg font-bold mb-2">PDF 파일을 업로드하세요</p>
       <button
         onClick={() => inputRef.current?.click()}
-        className="cursor-pointer px-6 py-2.5 border border-gray-300 rounded-full text-gray-700 bg-white hover:bg-gray-50 transition-colors shadow-sm font-semibold text-sm"
+        className="cursor-pointer text-gray-500 font-medium hover:text-gray-700 transition-colors underline underline-offset-4"
       >
-        PDF 업로드
+        Drag & Drop 또는 클릭
       </button>
       <input
         ref={inputRef}

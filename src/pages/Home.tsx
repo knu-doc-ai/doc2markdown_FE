@@ -60,7 +60,7 @@ const Home = () => {
         className="px-10 py-3.5 rounded-full text-white font-bold text-lg shadow-md transition-transform hover:scale-105 active:scale-95"
         style={{ backgroundColor: '#ff9c9c' }}
       >
-        변환된 문서 다운로드
+        변환 시작
       </button>
     </div>
   );
