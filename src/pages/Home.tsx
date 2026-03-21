@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import FileUpload from '@/components/FileUpload';
 
 const FORMATS = ['CommonMark', 'GitHub Flavored Markdown (GFM)', 'AsciiDoc'];
@@ -6,6 +7,8 @@ const FORMATS = ['CommonMark', 'GitHub Flavored Markdown (GFM)', 'AsciiDoc'];
 const Home = () => {
   const [file, setFile] = useState<File | null>(null);
   const [selectedFormat, setSelectedFormat] = useState<string>(FORMATS[0]);
+
+  const navigate = useNavigate();
 
   const handleFileSelect = (selectedFile: File) => {
     if (selectedFile.type !== 'application/pdf') {
@@ -20,7 +23,8 @@ const Home = () => {
       alert('먼저 변환할 PDF 파일을 업로드해주세요.');
       return;
     }
-    alert(`${file.name} 파일을 ${selectedFormat} 형식으로 변환합니다...`);
+    // 상태값 등을 전달할 수도 있지만 현재는 단순 이동 처리
+    navigate('/converting');
   };
 
   return (
