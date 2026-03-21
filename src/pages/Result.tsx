@@ -5,15 +5,40 @@ const Result = () => {
 
   const dummyMarkdown = `# Sample Markdown
 
-This is a mock output from the PDF conversion.
+This is a mock output from the PDF conversion. It has been generated to showcase the independent scrolling feature inside this pane.
 
 ## Features
 - Tables
 - Lists
-- **Bold text**`;
+- **Bold text**
+- *Italic text*
+- [Links](https://example.com)
+
+### 1. Extracted Text Block
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec efficitur turpis. Fusce eget lacus mauris. Pellentesque ut libero eu mi fringilla maximus congue sed libero. In tristique nunc nec tristique pharetra. Proin facilisis, urna vel scelerisque commodo, lectus risus tincidunt urna, quis facilisis turpis magna a massa.
+
+### 2. Tabular Data
+
+| Header 1 | Header 2 | Header 3 |
+|----------|----------|----------|
+| Row 1    | Data A   | Data B   |
+| Row 2    | Data C   | Data D   |
+| Row 3    | Data E   | Data F   |
+
+### 3. Code Block Support
+\`\`\`javascript
+function calculateConversionProgress() {
+  let progress = 0;
+  return progress + 100;
+}
+\`\`\`
+
+### 4. Details
+Donec non interdum neque, sed rutrum justo. Sed ac ligula purus. In hac habitasse platea dictumst. Maecenas sed dui vitae elit ullamcorper rhoncus vel ac est. Nunc eleifend vel risus quis elementum.
+`;
 
   return (
-    <div className="w-full max-w-6xl mx-auto mt-6 flex flex-col items-center">
+    <div className="w-full max-w-[1920px] px-4 md:px-8 lg:px-12 mx-auto mt-6 flex flex-col items-center">
       {/* 1. Header Title */}
       <h2 className="text-2xl font-bold text-gray-800 mb-10 border-b border-gray-200 pb-5 w-[80%] text-center">
         Markdown Convert Result
@@ -32,16 +57,83 @@ This is a mock output from the PDF conversion.
               Sample Markdown
             </h1>
             <p className="mb-6 text-gray-600 leading-relaxed text-lg">
-              This is a mock output from the PDF conversion.
+              This is a mock output from the PDF conversion. It has been generated to showcase the
+              independent scrolling feature inside this pane.
             </p>
+
             <h2 className="text-2xl font-bold mb-3 mt-6 text-gray-800">Features</h2>
-            <ul className="list-disc pl-6 space-y-2 text-gray-700">
+            <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-6">
               <li>Tables</li>
               <li>Lists</li>
               <li>
                 <strong className="font-bold">Bold text</strong>
               </li>
+              <li>
+                <em className="italic">Italic text</em>
+              </li>
+              <li>
+                <a href="#" className="text-blue-600 hover:underline">
+                  Links
+                </a>
+              </li>
             </ul>
+
+            <h3 className="text-xl font-bold mb-3 mt-8 text-gray-800">1. Extracted Text Block</h3>
+            <p className="mb-6 text-gray-600 leading-relaxed">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec efficitur turpis.
+              Fusce eget lacus mauris. Pellentesque ut libero eu mi fringilla maximus congue sed
+              libero. In tristique nunc nec tristique pharetra.
+            </p>
+
+            <h3 className="text-xl font-bold mb-3 mt-8 text-gray-800">2. Tabular Data</h3>
+            <div className="overflow-x-auto mb-6">
+              <table className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                      Header 1
+                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                      Header 2
+                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
+                      Header 3
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  <tr>
+                    <td className="px-4 py-3 text-sm text-gray-600">Row 1</td>
+                    <td className="px-4 py-3 text-sm text-gray-600">Data A</td>
+                    <td className="px-4 py-3 text-sm text-gray-600">Data B</td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-3 text-sm text-gray-600">Row 2</td>
+                    <td className="px-4 py-3 text-sm text-gray-600">Data C</td>
+                    <td className="px-4 py-3 text-sm text-gray-600">Data D</td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-3 text-sm text-gray-600">Row 3</td>
+                    <td className="px-4 py-3 text-sm text-gray-600">Data E</td>
+                    <td className="px-4 py-3 text-sm text-gray-600">Data F</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3 className="text-xl font-bold mb-3 mt-8 text-gray-800">3. Code Block Support</h3>
+            <pre className="bg-gray-100 p-4 rounded-lg overflow-x-auto mb-6 text-sm text-gray-800 font-mono">
+              {`function calculateConversionProgress() {
+  let progress = 0;
+  return progress + 100;
+}`}
+            </pre>
+
+            <h3 className="text-xl font-bold mb-3 mt-8 text-gray-800">4. Details</h3>
+            <p className="mb-6 text-gray-600 leading-relaxed pb-8">
+              Donec non interdum neque, sed rutrum justo. Sed ac ligula purus. In hac habitasse
+              platea dictumst. Maecenas sed dui vitae elit ullamcorper rhoncus vel ac est.
+            </p>
           </div>
         </div>
 
