@@ -1,8 +1,4 @@
-import axios, {
-  type AxiosInstance,
-  type InternalAxiosRequestConfig,
-  type AxiosResponse,
-} from 'axios';
+import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 
 const api: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL || '',
@@ -19,7 +15,7 @@ api.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  },
+  }
 );
 
 api.interceptors.response.use(
@@ -29,7 +25,7 @@ api.interceptors.response.use(
   (error) => {
     // Global error handling
     return Promise.reject(error);
-  },
+  }
 );
 
 export default api;
