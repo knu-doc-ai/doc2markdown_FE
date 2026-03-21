@@ -6,7 +6,7 @@ const Layout = () => {
       <header className="w-full bg-white shadow-sm p-4 text-center">
         <h1 className="text-xl font-bold text-rose-500">doc2markdown</h1>
       </header>
-      <main className="flex-1 w-full max-w-4xl p-6">
+      <main className="flex-1 w-full">
         <Outlet />
       </main>
       <footer className="w-full text-center p-4 text-rose-400 text-sm">
