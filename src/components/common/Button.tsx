@@ -1,6 +1,6 @@
 import React, { ButtonHTMLAttributes } from 'react';
 
-type ButtonVariant = 'primary' | 'link';
+type ButtonVariant = 'primary' | 'secondary' | 'link';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
@@ -16,6 +16,17 @@ const Button: React.FC<ButtonProps> = ({
     return (
       <button
         className={`text-gray-500 hover:text-rose-600 font-medium transition-colors underline underline-offset-4 bg-transparent border-none p-0 ${className}`}
+        {...props}
+      >
+        {children}
+      </button>
+    );
+  }
+
+  if (variant === 'secondary') {
+    return (
+      <button
+        className={`px-6 py-2 bg-rose-50 rounded-full text-sm text-rose-600 font-semibold hover:bg-rose-100 transition-all duration-300 hover:scale-105 active:scale-95 block ${className}`}
         {...props}
       >
         {children}
