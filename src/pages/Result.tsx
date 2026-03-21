@@ -21,17 +21,7 @@ This is a mock output from the PDF conversion.
 
       {/* 2. Split Code & Preview View */}
       <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mb-12 h-[500px]">
-        {/* Left pane: Markdown Code */}
-        <div className="flex flex-col h-full bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
-          <div className="bg-gray-100 p-3 border-b border-gray-200 font-semibold text-gray-700 text-sm text-center">
-            Markdown Code
-          </div>
-          <div className="p-6 flex-1 overflow-auto bg-gray-50/50 text-sm text-gray-800 font-mono whitespace-pre-wrap leading-relaxed outline-none">
-            {dummyMarkdown}
-          </div>
-        </div>
-
-        {/* Right pane: Markdown Preview */}
+        {/* Left pane: Markdown Preview */}
         <div className="flex flex-col h-full bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
           <div className="bg-gray-100 p-3 border-b border-gray-200 font-semibold text-gray-700 text-sm text-center">
             Markdown Preview
@@ -52,6 +42,16 @@ This is a mock output from the PDF conversion.
                 <strong className="font-bold">Bold text</strong>
               </li>
             </ul>
+          </div>
+        </div>
+
+        {/* Right pane: Markdown Code */}
+        <div className="flex flex-col h-full bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+          <div className="bg-gray-100 p-3 border-b border-gray-200 font-semibold text-gray-700 text-sm text-center">
+            Markdown Code
+          </div>
+          <div className="p-6 flex-1 overflow-auto bg-gray-50/50 text-sm text-gray-800 font-mono whitespace-pre-wrap leading-relaxed outline-none">
+            {dummyMarkdown}
           </div>
         </div>
       </div>
