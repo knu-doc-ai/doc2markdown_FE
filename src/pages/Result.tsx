@@ -1,4 +1,7 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 const Result = () => {
   const navigate = useNavigate();
@@ -37,6 +40,24 @@ function calculateConversionProgress() {
 Donec non interdum neque, sed rutrum justo. Sed ac ligula purus. In hac habitasse platea dictumst. Maecenas sed dui vitae elit ullamcorper rhoncus vel ac est. Nunc eleifend vel risus quis elementum.
 `;
 
+  const [code, setCode] = useState(dummyMarkdown);
+  const [previewCode, setPreviewCode] = useState(dummyMarkdown);
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  };
+
+  const handleRunCode = () => {
+    setPreviewCode(code);
+  };
+
   return (
     <div className="w-full max-w-[1920px] px-4 md:px-8 lg:px-12 mx-auto mt-6 flex flex-col items-center">
       {/* 1. Header Title */}
@@ -51,99 +72,95 @@ Donec non interdum neque, sed rutrum justo. Sed ac ligula purus. In hac habitass
           <div className="bg-gray-100 p-3 border-b border-gray-200 font-semibold text-gray-700 text-sm text-center">
             Markdown Preview
           </div>
-          <div className="p-8 flex-1 overflow-auto text-gray-800 bg-white">
-            {/* 임시 하드코딩된 HTML 렌더링 (실제 상황에선 react-markdown 등 사용) */}
-            <h1 className="text-3xl font-extrabold mb-4 border-b pb-2 text-gray-900">
-              Sample Markdown
-            </h1>
-            <p className="mb-6 text-gray-600 leading-relaxed text-lg">
-              This is a mock output from the PDF conversion. It has been generated to showcase the
-              independent scrolling feature inside this pane.
-            </p>
-
-            <h2 className="text-2xl font-bold mb-3 mt-6 text-gray-800">Features</h2>
-            <ul className="list-disc pl-6 space-y-2 text-gray-700 mb-6">
-              <li>Tables</li>
-              <li>Lists</li>
-              <li>
-                <strong className="font-bold">Bold text</strong>
-              </li>
-              <li>
-                <em className="italic">Italic text</em>
-              </li>
-              <li>
-                <a href="#" className="text-blue-600 hover:underline">
-                  Links
-                </a>
-              </li>
-            </ul>
-
-            <h3 className="text-xl font-bold mb-3 mt-8 text-gray-800">1. Extracted Text Block</h3>
-            <p className="mb-6 text-gray-600 leading-relaxed">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec efficitur turpis.
-              Fusce eget lacus mauris. Pellentesque ut libero eu mi fringilla maximus congue sed
-              libero. In tristique nunc nec tristique pharetra.
-            </p>
-
-            <h3 className="text-xl font-bold mb-3 mt-8 text-gray-800">2. Tabular Data</h3>
-            <div className="overflow-x-auto mb-6">
-              <table className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                      Header 1
-                    </th>
-                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                      Header 2
-                    </th>
-                    <th className="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                      Header 3
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  <tr>
-                    <td className="px-4 py-3 text-sm text-gray-600">Row 1</td>
-                    <td className="px-4 py-3 text-sm text-gray-600">Data A</td>
-                    <td className="px-4 py-3 text-sm text-gray-600">Data B</td>
-                  </tr>
-                  <tr>
-                    <td className="px-4 py-3 text-sm text-gray-600">Row 2</td>
-                    <td className="px-4 py-3 text-sm text-gray-600">Data C</td>
-                    <td className="px-4 py-3 text-sm text-gray-600">Data D</td>
-                  </tr>
-                  <tr>
-                    <td className="px-4 py-3 text-sm text-gray-600">Row 3</td>
-                    <td className="px-4 py-3 text-sm text-gray-600">Data E</td>
-                    <td className="px-4 py-3 text-sm text-gray-600">Data F</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-
-            <h3 className="text-xl font-bold mb-3 mt-8 text-gray-800">3. Code Block Support</h3>
-            <pre className="bg-gray-100 p-4 rounded-lg overflow-x-auto mb-6 text-sm text-gray-800 font-mono">
-              {`function calculateConversionProgress() {
-  let progress = 0;
-  return progress + 100;
-}`}
-            </pre>
-
-            <h3 className="text-xl font-bold mb-3 mt-8 text-gray-800">4. Details</h3>
-            <p className="mb-6 text-gray-600 leading-relaxed pb-8">
-              Donec non interdum neque, sed rutrum justo. Sed ac ligula purus. In hac habitasse
-              platea dictumst. Maecenas sed dui vitae elit ullamcorper rhoncus vel ac est.
-            </p>
+          <div className="p-8 flex-1 overflow-auto bg-white prose prose-rose max-w-none prose-sm sm:prose-base prose-pre:bg-gray-100 prose-pre:text-gray-800 prose-a:text-rose-600 prose-headings:font-bold prose-h1:text-3xl prose-h2:text-2xl">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{previewCode}</ReactMarkdown>
           </div>
         </div>
 
         {/* Right pane: Markdown Code */}
-        <div className="flex flex-col h-full bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
-          <div className="bg-gray-100 p-3 border-b border-gray-200 font-semibold text-gray-700 text-sm text-center">
-            Markdown Code
+        <div className="flex flex-col h-full bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm relative">
+          <div className="bg-gray-100 p-3 border-b border-gray-200 font-semibold text-gray-700 text-sm flex justify-between items-center px-4">
+            <span>Markdown Code</span>
+            <button
+              onClick={handleCopy}
+              className={`px-3 py-1.5 rounded text-xs font-semibold transition-colors flex items-center gap-1.5 border shadow-sm ${
+                copied
+                  ? 'bg-green-50 text-green-700 border-green-200'
+                  : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-50'
+              }`}
+            >
+              {copied ? (
+                <>
+                  <svg
+                    className="w-3.5 h-3.5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                  <span>Copied!</span>
+                </>
+              ) : (
+                <>
+                  <svg
+                    className="w-3.5 h-3.5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                    />
+                  </svg>
+                  <span>Copy</span>
+                </>
+              )}
+            </button>
           </div>
-          <div className="p-6 flex-1 overflow-auto bg-gray-50/50 text-sm text-gray-800 font-mono whitespace-pre-wrap leading-relaxed outline-none">
-            {dummyMarkdown}
+          <textarea
+            value={code}
+            onChange={(e) => setCode(e.target.value)}
+            spellCheck={false}
+            className="p-6 flex-1 w-full resize-none overflow-auto bg-gray-50/50 text-sm text-gray-800 font-mono leading-relaxed outline-none focus:bg-white transition-colors"
+          />
+          <div className="bg-gray-50 p-3 border-t border-gray-200 flex justify-end">
+            <button
+              onClick={handleRunCode}
+              className="px-6 py-2 bg-gray-800 text-white font-semibold text-sm rounded-lg hover:bg-gray-900 transition-colors shadow-sm flex items-center gap-2"
+            >
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              코드 실행
+            </button>
           </div>
         </div>
       </div>
