@@ -5,7 +5,19 @@ const STEPS = ['PDF 분석', 'Layout detection', 'Table parsing', 'Markdown 생�
 
 const ConversionProgress = () => {
   const [progress, setProgress] = useState(0);
+  const [dots, setDots] = useState('...');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const dotInterval = setInterval(() => {
+      setDots((prev) => {
+        if (prev === '...') return '..';
+        if (prev === '..') return '.';
+        return '...';
+      });
+    }, 500);
+    return () => clearInterval(dotInterval);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -84,11 +96,14 @@ const ConversionProgress = () => {
       </div>
 
       {/* 3. Footer Text */}
-      <div className="h-10">
+      <div className="h-10 w-full flex justify-center">
         <p
-          className={`text-lg font-medium transition-opacity ${progress === 100 ? 'text-green-600' : 'text-gray-500 animate-bounce'}`}
+          className={`text-lg font-medium transition-opacity flex ${progress === 100 ? 'text-green-600' : 'text-gray-500'}`}
         >
-          {progress === 100 ? '변환 완료! 결과 페이지로 이동합니다...' : '잠시만 기다려주세요...'}
+          <span>
+            {progress === 100 ? '변환 완료! 결과 페이지로 이동합니다' : '잠시만 기다려주세요'}
+          </span>
+          <span className="inline-block w-8 text-left">{dots}</span>
         </p>
       </div>
 
