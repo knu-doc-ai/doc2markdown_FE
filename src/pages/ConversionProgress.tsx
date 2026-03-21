@@ -9,6 +9,15 @@ const ConversionProgress = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (progress === 100) {
+      const timeout = setTimeout(() => {
+        navigate('/result');
+      }, 1500); // 1.5초 뒤 결과창 자동 이동
+      return () => clearTimeout(timeout);
+    }
+  }, [progress, navigate]);
+
+  useEffect(() => {
     const dotInterval = setInterval(() => {
       setDots((prev) => {
         if (prev === '...') return '..';
@@ -107,13 +116,13 @@ const ConversionProgress = () => {
         </p>
       </div>
 
-      {/* 변환 완료 시뮬레이션 복귀 (옵션) */}
+      {/* 바로 가기 버튼 (자동이동 되지만 버튼도 제공) */}
       {progress === 100 && (
         <button
-          onClick={() => navigate('/')}
-          className="mt-6 text-sm text-gray-400 underline hover:text-gray-600"
+          onClick={() => navigate('/result')}
+          className="mt-6 px-6 py-2 bg-rose-50 rounded-full text-sm text-rose-600 font-semibold hover:bg-rose-100 transition-colors"
         >
-          뒤로 돌아가기
+          결과 보러가기
         </button>
       )}
     </div>
