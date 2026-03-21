@@ -62,15 +62,15 @@ Donec non interdum neque, sed rutrum justo. Sed ac ligula purus. In hac habitass
     <div className="w-full max-w-[1920px] px-4 md:px-8 lg:px-12 mx-auto mt-6 flex flex-col items-center">
       {/* 1. Header Title */}
       <h2 className="text-2xl font-bold text-gray-800 mb-10 border-b border-gray-200 pb-5 w-[80%] text-center">
-        Markdown Convert Result
+        Markdown 변환 결과
       </h2>
 
       {/* 2. Split Code & Preview View */}
       <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mb-12 h-[500px]">
         {/* Left pane: Markdown Preview */}
         <div className="flex flex-col h-full bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
-          <div className="bg-gray-100 p-3 border-b border-gray-200 font-semibold text-gray-700 text-sm text-center">
-            Markdown Preview
+          <div className="bg-gray-100 p-3 border-b border-gray-200 font-bold text-gray-800 text-base text-center tracking-wide">
+            Markdown 미리보기
           </div>
           <div className="p-8 flex-1 overflow-auto bg-white prose prose-rose max-w-none prose-sm sm:prose-base prose-pre:bg-gray-100 prose-pre:text-gray-800 prose-a:text-rose-600 prose-headings:font-bold prose-h1:text-3xl prose-h2:text-2xl">
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{previewCode}</ReactMarkdown>
@@ -79,8 +79,8 @@ Donec non interdum neque, sed rutrum justo. Sed ac ligula purus. In hac habitass
 
         {/* Right pane: Markdown Code */}
         <div className="flex flex-col h-full bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm relative">
-          <div className="bg-gray-100 p-3 border-b border-gray-200 font-semibold text-gray-700 text-sm flex justify-between items-center px-4">
-            <span>Markdown Code</span>
+          <div className="bg-gray-100 p-3 border-b border-gray-200 font-bold text-gray-800 text-base flex justify-end items-center px-4 relative tracking-wide">
+            <span className="absolute left-1/2 -translate-x-1/2">Markdown 에디터</span>
             <button
               onClick={handleCopy}
               className={`px-3 py-1.5 rounded text-xs font-semibold transition-colors flex items-center gap-1.5 border shadow-sm ${
@@ -175,7 +175,7 @@ Donec non interdum neque, sed rutrum justo. Sed ac ligula purus. In hac habitass
           onClick={() => navigate('/')}
           className="text-gray-500 hover:text-rose-600 font-medium transition-colors underline underline-offset-4"
         >
-          Convert another file
+          다른 파일 변환하기
         </button>
       </div>
     </div>
