@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import Button from '@/components/common/Button';
 
 const Result = () => {
   const navigate = useNavigate();
@@ -166,17 +167,12 @@ Donec non interdum neque, sed rutrum justo. Sed ac ligula purus. In hac habitass
       </div>
 
       {/* 3. Action Buttons */}
-      <div className="flex flex-col items-center gap-6 mb-10">
-        <button className="px-12 py-3.5 rounded-full text-white font-bold text-lg shadow-md transition-transform hover:scale-105 active:scale-95 bg-rose-500 hover:bg-rose-600 block">
-          Download .zip
-        </button>
+      <div className="flex flex-col items-center gap-6 mb-10 mt-4">
+        <Button>Download .zip</Button>
 
-        <button
-          onClick={() => navigate('/')}
-          className="text-gray-500 hover:text-rose-600 font-medium transition-colors underline underline-offset-4"
-        >
+        <Button variant="link" onClick={() => navigate('/')}>
           다른 파일 변환하기
-        </button>
+        </Button>
       </div>
     </div>
   );

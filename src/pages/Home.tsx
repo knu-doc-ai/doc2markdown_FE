@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FileUpload from '@/components/FileUpload';
+import FormatSelector from '@/components/home/FormatSelector';
+import Button from '@/components/common/Button';
 
 const FORMATS = ['CommonMark', 'GitHub Flavored Markdown (GFM)', 'AsciiDoc'];
 
@@ -42,31 +44,16 @@ const Home = () => {
       </div>
 
       {/* 2. 포맷 선택 영역 */}
-      <div className="flex gap-4 justify-center mt-6 mb-8 flex-wrap">
-        {FORMATS.map((fmt) => (
-          <button
-            key={fmt}
-            onClick={() => setSelectedFormat(fmt)}
-            className={`px-6 py-2.5 rounded-full text-sm font-semibold transition-colors ${
-              selectedFormat === fmt
-                ? 'bg-gray-200 text-gray-800 shadow-inner'
-                : 'bg-white text-gray-500 border border-gray-300 hover:bg-gray-50'
-            }`}
-          >
-            {fmt}
-          </button>
-        ))}
-      </div>
+      <FormatSelector
+        formats={FORMATS}
+        selectedFormat={selectedFormat}
+        onSelectFormat={setSelectedFormat}
+      />
 
-      {/* 3. 액션 버튼 (파일 업로드 여부에 따라 색상 변경) */}
-      <button
-        onClick={handleDownload}
-        className={`px-10 py-3.5 rounded-full text-white font-bold text-lg shadow-md transition-all duration-300 hover:scale-105 active:scale-95 ${
-          file ? 'bg-red-600 hover:bg-red-700' : 'bg-[#ff9c9c]'
-        }`}
-      >
+      {/* 3. 액션 버튼 */}
+      <Button onClick={handleDownload} disabled={!file} className="px-10">
         변환 시작
-      </button>
+      </Button>
     </div>
   );
 };
