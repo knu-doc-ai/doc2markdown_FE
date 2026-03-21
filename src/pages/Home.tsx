@@ -54,11 +54,12 @@ const Home = () => {
         ))}
       </div>
 
-      {/* 3. 액션 버튼 (연어색 다운로드 버튼) */}
+      {/* 3. 액션 버튼 (파일 업로드 여부에 따라 색상 변경) */}
       <button
         onClick={handleDownload}
-        className="px-10 py-3.5 rounded-full text-white font-bold text-lg shadow-md transition-transform hover:scale-105 active:scale-95"
-        style={{ backgroundColor: '#ff9c9c' }}
+        className={`px-10 py-3.5 rounded-full text-white font-bold text-lg shadow-md transition-all duration-300 hover:scale-105 active:scale-95 ${
+          file ? 'bg-red-600 hover:bg-red-700' : 'bg-[#ff9c9c]'
+        }`}
       >
         변환 시작
       </button>
