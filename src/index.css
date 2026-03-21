@@ -5,8 +5,46 @@
   --color-primary: #3b82f6; /* Example base design token */
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+@layer base {
+  body {
+    @apply antialiased text-gray-900;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* 사파리 모바일 대응 및 브라우저 공통 Outline 리셋 */
+  input,
+  textarea,
+  button,
+  select {
+    @apply appearance-none outline-none;
+  }
+
+  /* 키보드 네비게이션 접근성 링 통일: 테마 규격(Rose)에 맞춘 부드러운 외곽선 */
+  input:focus-visible,
+  textarea:focus-visible,
+  button:focus-visible {
+    @apply outline-none ring-2 ring-rose-400 ring-offset-1;
+  }
+
+  /* Firefox 대응 범용 표준 스크롤바 명세 */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+  }
+}
+
+/* 크롬, 사파리, 엣지용 슬림 반투명 스크롤바 */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #94a3b8;
 }
