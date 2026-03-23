@@ -26,24 +26,24 @@
 ## 🚀 Getting Started
 
 ### 설치 (Installation)
-\`\`\`bash
+bash
 npm install
-\`\`\`
+
 
 ### 실행 (Development)
-\`\`\`bash
+```bash
 npm run dev
-\`\`\`
+```
 
 ### 빌드 (Build)
-\`\`\`bash
+```bash
 npm run build
-\`\`\`
+```
 
 ### 린트 검사 (Lint)
-\`\`\`bash
+```bash
 npm run lint
-\`\`\`
+```
 
 ---
 
@@ -54,7 +54,7 @@ npm run lint
 ### PR 양식
 PR 생성 시 본문 내용에 아래 템플릿을 복사하여 사용합니다.
 
-\`\`\`markdown
+```markdown
 ## 📌 작업 요약
 ## 📌 구현 기능 (변경 사항)
 - 
@@ -72,4 +72,4 @@ PR 생성 시 본문 내용에 아래 템플릿을 복사하여 사용합니다.
 
 ## 📝 추가 필요 작업
 - 
-\`\`\`
+```
