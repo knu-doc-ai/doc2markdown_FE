@@ -51,7 +51,10 @@ const Home = () => {
       />
 
       {/* 3. 액션 버튼 */}
-      <Button onClick={handleDownload} disabled={!file} className="px-10">
+      <Button
+        onClick={handleDownload}
+        className={`px-10 ${!file ? '!bg-rose-300 !opacity-80 hover:!bg-rose-300 hover:!scale-100 active:!scale-100' : ''}`}
+      >
         변환 시작
       </Button>
     </div>
