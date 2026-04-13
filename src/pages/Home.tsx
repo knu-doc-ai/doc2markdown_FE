@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import FileUpload from '@/components/FileUpload';
 import FormatSelector from '@/components/home/FormatSelector';
 import Button from '@/components/common/Button';
+import { uploadDocument, startConversion } from '@/api/documents';
 
 const FORMATS = ['CommonMark', 'GitHub Flavored Markdown (GFM)', 'AsciiDoc'];
 
@@ -10,6 +11,7 @@ const Home = () => {
   const [file, setFile] = useState<File | null>(null);
   const [selectedFormat, setSelectedFormat] = useState<string>(FORMATS[0]);
 
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleFileSelect = (selectedFile: File) => {
@@ -20,13 +22,28 @@ const Home = () => {
     setFile(selectedFile);
   };
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
     if (!file) {
       alert('먼저 변환할 PDF 파일을 업로드해주세요.');
       return;
     }
-    // 상태값 등을 전달할 수도 있지만 현재는 단순 이동 처리
-    navigate('/converting');
+    setIsLoading(true);
+    try {
+      // 1. Upload Document
+      const uploadRes = await uploadDocument(file);
+      const docId = uploadRes.documentId;
+
+      // 2. Start Conversion
+      await startConversion(docId, selectedFormat);
+
+      // 3. Navigate to progress page with documentId
+      navigate('/converting', { state: { documentId: docId } });
+    } catch (error) {
+      console.error('Failed to start conversion:', error);
+      alert('변환 시작 중 오류가 발생했습니다.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -53,9 +70,10 @@ const Home = () => {
       {/* 3. 액션 버튼 */}
       <Button
         onClick={handleDownload}
-        className={`px-10 ${!file ? '!bg-rose-300 !opacity-80 hover:!bg-rose-300 hover:!scale-100 active:!scale-100' : ''}`}
+        disabled={isLoading || !file}
+        className={`px-10 ${!file || isLoading ? '!bg-rose-300 !opacity-80 hover:!bg-rose-300 hover:!scale-100 active:!scale-100' : ''}`}
       >
-        변환 시작
+        {isLoading ? '준비 중...' : '변환 시작'}
       </Button>
     </div>
   );
