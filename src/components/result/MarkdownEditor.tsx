@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface MarkdownEditorProps {
   initialCode: string;
@@ -8,6 +8,10 @@ interface MarkdownEditorProps {
 const MarkdownEditor: React.FC<MarkdownEditorProps> = ({ initialCode, onRunCode }) => {
   const [code, setCode] = useState(initialCode);
   const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    setCode(initialCode);
+  }, [initialCode]);
 
   const handleCopy = async () => {
     try {
