@@ -1,47 +1,41 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { getResult, downloadResultZip } from '@/api/documents';
 import Button from '@/components/common/Button';
 import MarkdownPreview from '@/components/result/MarkdownPreview';
 import MarkdownEditor from '@/components/result/MarkdownEditor';
 
 const Result = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const documentId = location.state?.documentId;
 
-  const dummyMarkdown = `# Sample Markdown
+  const [previewCode, setPreviewCode] = useState('');
+  const [initialCode, setInitialCode] = useState('');
 
-This is a mock output from the PDF conversion. It has been generated to showcase the independent scrolling feature inside this pane.
+  useEffect(() => {
+    if (!documentId) return;
 
-## Features
-- Tables
-- Lists
-- **Bold text**
-- *Italic text*
-- [Links](https://example.com)
+    const fetchResult = async () => {
+      try {
+        const res = await getResult(documentId);
+        if (res.markdown) {
+          setPreviewCode(res.markdown);
+          setInitialCode(res.markdown);
+        }
+      } catch (error) {
+        console.error('결과를 가져오는데 실패했습니다:', error);
+      }
+    };
 
-### 1. Extracted Text Block
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec efficitur turpis. Fusce eget lacus mauris. Pellentesque ut libero eu mi fringilla maximus congue sed libero. In tristique nunc nec tristique pharetra. Proin facilisis, urna vel scelerisque commodo, lectus risus tincidunt urna, quis facilisis turpis magna a massa.
+    fetchResult();
+  }, [documentId]);
 
-### 2. Tabular Data
-
-| Header 1 | Header 2 | Header 3 |
-|----------|----------|----------|
-| Row 1    | Data A   | Data B   |
-| Row 2    | Data C   | Data D   |
-| Row 3    | Data E   | Data F   |
-
-### 3. Code Block Support
-\`\`\`javascript
-function calculateConversionProgress() {
-  let progress = 0;
-  return progress + 100;
-}
-\`\`\`
-
-### 4. Details
-Donec non interdum neque, sed rutrum justo. Sed ac ligula purus. In hac habitasse platea dictumst. Maecenas sed dui vitae elit ullamcorper rhoncus vel ac est. Nunc eleifend vel risus quis elementum.
-`;
-
-  const [previewCode, setPreviewCode] = useState(dummyMarkdown);
+  const handleDownload = () => {
+    if (documentId) {
+      downloadResultZip(documentId);
+    }
+  };
 
   return (
     <div className="w-full max-w-[1920px] px-4 md:px-8 lg:px-12 mx-auto mt-6 flex flex-col items-center">
@@ -56,12 +50,12 @@ Donec non interdum neque, sed rutrum justo. Sed ac ligula purus. In hac habitass
         <MarkdownPreview previewCode={previewCode} />
 
         {/* Right pane: Markdown Code Editor */}
-        <MarkdownEditor initialCode={dummyMarkdown} onRunCode={setPreviewCode} />
+        <MarkdownEditor initialCode={initialCode} onRunCode={setPreviewCode} />
       </div>
 
       {/* 3. Action Buttons */}
       <div className="flex flex-col items-center gap-6 mb-10 mt-4">
-        <Button>Download .zip</Button>
+        <Button onClick={handleDownload}>Download .zip</Button>
 
         <Button variant="link" onClick={() => navigate('/')}>
           다른 파일 변환하기

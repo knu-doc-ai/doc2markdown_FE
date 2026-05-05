@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { checkStatus } from '@/api/documents';
 import ProgressBar from '@/components/progress/ProgressBar';
 import StepList from '@/components/progress/StepList';
 import Button from '@/components/common/Button';
@@ -10,15 +11,42 @@ const ConversionProgress = () => {
   const [progress, setProgress] = useState(0);
   const [dots, setDots] = useState('...');
   const navigate = useNavigate();
+  const location = useLocation();
+  const documentId = location.state?.documentId;
 
   useEffect(() => {
-    if (progress === 100) {
-      const timeout = setTimeout(() => {
-        navigate('/result');
-      }, 1500); // 1.5초 뒤 결과창 자동 이동
-      return () => clearTimeout(timeout);
-    }
-  }, [progress, navigate]);
+    if (!documentId) return;
+
+    // eslint-disable-next-line prefer-const
+    let progressInterval: number | undefined;
+
+    const pollStatus = async () => {
+      try {
+        const res = await checkStatus(documentId);
+        if (res.status === 'SUCCESS') {
+          setProgress(100);
+          clearInterval(progressInterval);
+          setTimeout(() => {
+            navigate('/result', { state: { documentId } });
+          }, 1500);
+        } else if (res.status === 'FAILED') {
+          clearInterval(progressInterval);
+          alert('변환 실패: ' + (res.errorMessage || '알 수 없는 오류'));
+          navigate('/');
+        } else {
+          setProgress((prev) => (prev < 90 ? prev + 3 : prev)); // max bound for PROCESSING state
+        }
+      } catch (e) {
+        console.error('Error polling status', e);
+      }
+    };
+
+    // Poll every 3 seconds
+    progressInterval = window.setInterval(pollStatus, 3000);
+    pollStatus(); // initial call
+
+    return () => clearInterval(progressInterval);
+  }, [documentId, navigate]);
 
   useEffect(() => {
     const dotInterval = setInterval(() => {
@@ -29,19 +57,6 @@ const ConversionProgress = () => {
       });
     }, 500);
     return () => clearInterval(dotInterval);
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          return 100;
-        }
-        return prev + 1; // 1%씩 증가하여 약 4~5초 진행 시뮬레이션
-      });
-    }, 40);
-    return () => clearInterval(interval);
   }, []);
 
   return (
