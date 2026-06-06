@@ -13,11 +13,11 @@ export const uploadDocument = async (file: File) => {
   return response.data; // { documentId: string, filename: string, ... }
 };
 
-export const startConversion = async (documentId: string, format: string) => {
-  // Map our UI format strings or send directly, BE might expect specific enum
+export const startConversion = async (documentId: string, format = 'gfm') => {
+  // Map our UI format strings or send directly, BE expects 'gfm', 'commonmark', or 'markdown'
   let targetFormat = 'gfm';
-  if (format === 'CommonMark') targetFormat = 'commonmark';
-  if (format === 'AsciiDoc') targetFormat = 'asciidoc';
+  if (format === 'CommonMark' || format === 'commonmark') targetFormat = 'commonmark';
+  if (format === 'markdown') targetFormat = 'markdown';
 
   const response = await axios.post(
     `${API_BASE_URL}/documents/${documentId}/convert`,
