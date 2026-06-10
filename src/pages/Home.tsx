@@ -1,16 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import FileUpload from '@/components/FileUpload';
-import FormatSelector from '@/components/home/FormatSelector';
 import Button from '@/components/common/Button';
 import { uploadDocument, startConversion } from '@/api/documents';
 
-const FORMATS = ['CommonMark', 'GitHub Flavored Markdown (GFM)', 'AsciiDoc'];
-
 const Home = () => {
   const [file, setFile] = useState<File | null>(null);
-  const [selectedFormat, setSelectedFormat] = useState<string>(FORMATS[0]);
-
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -33,8 +28,8 @@ const Home = () => {
       const uploadRes = await uploadDocument(file);
       const docId = uploadRes.documentId;
 
-      // 2. Start Conversion
-      await startConversion(docId, selectedFormat);
+      // 2. Start Conversion (defaults to 'gfm')
+      await startConversion(docId);
 
       // 3. Navigate to progress page with documentId
       navigate('/converting', { state: { documentId: docId } });
@@ -60,20 +55,13 @@ const Home = () => {
         )}
       </div>
 
-      {/* 2. 포맷 선택 영역 */}
-      <FormatSelector
-        formats={FORMATS}
-        selectedFormat={selectedFormat}
-        onSelectFormat={setSelectedFormat}
-      />
-
-      {/* 3. 액션 버튼 */}
+      {/* 2. 액션 버튼 */}
       <Button
         onClick={handleDownload}
         disabled={isLoading || !file}
-        className={`px-10 ${!file || isLoading ? '!bg-rose-300 !opacity-80 hover:!bg-rose-300 hover:!scale-100 active:!scale-100' : ''}`}
+        className={`px-10 mt-6 ${!file || isLoading ? '!bg-rose-300 !opacity-80 hover:!bg-rose-300 hover:!scale-100 active:!scale-100' : ''}`}
       >
-        {isLoading ? '준비 중...' : '변환 시작'}
+        {isLoading ? '준비 중...' : 'Markdown (GFM)으로 변환'}
       </Button>
     </div>
   );
